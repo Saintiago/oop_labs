@@ -1,6 +1,7 @@
 /*
 Завести енум для кодов ошибок
 Проверить в тестах зеркалирование каждого из разрядов
+Исправитть именование функций
 */
 
 #include "stdafx.h"
@@ -14,8 +15,8 @@ int main(int argc, char* argv[])
 		{
 			throw Error::NoArguments;
 		}
-		int num = getNumber(argv[1]);
-		cout << static_cast <int> (flip(num)) << endl;
+		int num = GetNumber(argv[1]);
+		cout << static_cast <int> (Flip(num)) << endl;
 	}
 	catch (Error e)
 	{

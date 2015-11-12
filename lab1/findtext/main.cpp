@@ -8,43 +8,37 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	if (argc != 3)
+	try
 	{
-		cout << "Please, specify file and string to find.";
-		return 1;
-	}
-
-	string fileName = argv[1];
-	string search = argv[2];
-	string lineOfText;
-	int lineCount = 0;
-	bool somethingFound = false;
-
-	ifstream fin(fileName);
-
-	if (!fin.is_open())
-	{
-		cout << "Cannot open file " << fileName << endl;
-		return 1;
-	}
-
-
-
-	while (getline(fin, lineOfText))
-	{
-		lineCount++;
-		if (lineOfText.find(search) != string::npos)
+		if (argc != 3)
 		{
-			somethingFound = true;
-			cout << search << " found at " << lineCount << endl;
+			throw Error::InvalidArguments;
 		}
-	}
 
-	if (!somethingFound)
+		int foundLine = SearchString(argv[1], argv[2]);
+
+		if (foundLine == 0)
+		{
+			cout << "Text not found" << endl;
+			return 1;
+		}
+		cout << "Text found at " << foundLine << endl;
+	}
+	catch (Error e)
 	{
-		cout << "Text not found" << endl;
+		char* message = "Unknown error";
+		switch (e)
+		{
+		case Error::InvalidArguments:
+			message = "Please, specify file and string to find.";
+			break;
+		case Error::CantOpenFile:
+			message = "Cannot open file.";
+			break;
+		}
+		cout << message << endl;
 		return 1;
 	}
-
+	
 	return 0;
 }

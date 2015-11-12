@@ -4,8 +4,8 @@
 
 using namespace std;
 
-unsigned char getNumber(char*);
-unsigned char flip(unsigned char number);
+unsigned char GetNumber(char*);
+unsigned char Flip(unsigned char number);
 
 enum class Error
 {

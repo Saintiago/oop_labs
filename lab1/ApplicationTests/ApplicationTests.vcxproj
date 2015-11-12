@@ -157,10 +157,11 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Users\techp_000\Documents\Visual Studio 2015\Projects\ConsoleApplication5\ConsoleApplication5\findtext_func.cpp" />
-    <ClCompile Include="..\ConsoleApplication1\flipbyte_func.cpp" />
+    <ClCompile Include="..\findtext\findtext_func.cpp" />
+    <ClCompile Include="..\flipbyte\flipbyte_func.cpp" />
     <ClCompile Include="..\matrix33\matrix33.cpp" />
     <ClCompile Include="ApplicationTests.cpp" />
+    <ClCompile Include="FindtextTests.cpp" />
     <ClCompile Include="FlipByteTests.cpp" />
     <ClCompile Include="MatrixTests.cpp" />
     <ClCompile Include="RleTests.cpp" />
