@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "../ConsoleApplication1/flipbyte_func.h"
+#include "../flipbyte/flipbyte_func.h"
 
 BOOST_AUTO_TEST_SUITE(FlipByteTests)
 
