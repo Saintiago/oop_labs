@@ -5,8 +5,11 @@ BOOST_AUTO_TEST_SUITE(FindTextTests)
 
 BOOST_AUTO_TEST_CASE(SearchStringTest)
 {
-	BOOST_CHECK_EQUAL(SearchString("C:\\PS\\my_oop\\oop_labs\\lab1\\Debug\\readme.txt", "SQL"), 34);
-	BOOST_CHECK_EQUAL(SearchString("C:\\PS\\my_oop\\oop_labs\\lab1\\Debug\\empty.txt", ""), 0);
-	BOOST_CHECK_EQUAL(SearchString("C:\\PS\\my_oop\\oop_labs\\lab1\\Debug\\text.txt", "third"), 3);
+	ifstream readme("..\\Debug\\readme.txt");
+	BOOST_CHECK_EQUAL(SearchString(readme, "SQL"), 34);
+	ifstream empty("..\\Debug\\empty.txt");
+	BOOST_CHECK_EQUAL(SearchString(empty, ""), 0);
+	ifstream text("..\\Debug\\text.txt");
+	BOOST_CHECK_EQUAL(SearchString(text, "third"), 3);
 }
 BOOST_AUTO_TEST_SUITE_END()

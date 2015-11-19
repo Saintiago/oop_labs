@@ -12,10 +12,15 @@ int main(int argc, char* argv[])
 	{
 		if (argc != 3)
 		{
-			throw Error::InvalidArguments;
+			throw exception("Usage: search.exe <file-name> <search-string>");
 		}
 
-		int foundLine = SearchString(argv[1], argv[2]);
+		ifstream fin(argv[1]);
+		if (!fin.is_open())
+		{
+			throw exception("Cannot open file.");
+		}
+		int foundLine = SearchString(fin, argv[2]);
 
 		if (foundLine == 0)
 		{
@@ -24,19 +29,9 @@ int main(int argc, char* argv[])
 		}
 		cout << "Text found at " << foundLine << endl;
 	}
-	catch (Error e)
+	catch (exception & e)
 	{
-		char* message = "Unknown error";
-		switch (e)
-		{
-		case Error::InvalidArguments:
-			message = "Please, specify file and string to find.";
-			break;
-		case Error::CantOpenFile:
-			message = "Cannot open file.";
-			break;
-		}
-		cout << message << endl;
+		cout << e.what() << endl;
 		return 1;
 	}
 	

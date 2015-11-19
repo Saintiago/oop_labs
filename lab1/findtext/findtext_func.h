@@ -4,13 +4,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <exception>
 
 using namespace std;
 
-enum class Error
-{
-	InvalidArguments,
-	CantOpenFile
-};
-
-int SearchString(string file, string search);
+int SearchString(ifstream & fin, const string search);
