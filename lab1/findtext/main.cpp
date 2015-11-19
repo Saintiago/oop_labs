@@ -20,14 +20,17 @@ int main(int argc, char* argv[])
 		{
 			throw exception("Cannot open file.");
 		}
-		int foundLine = SearchString(fin, argv[2]);
+		vector<int> foundLines = SearchString(fin, argv[2]);
 
-		if (foundLine == 0)
+		if (foundLines.empty())
 		{
 			cout << "Text not found" << endl;
 			return 1;
 		}
-		cout << "Text found at " << foundLine << endl;
+
+		std::stringstream result;
+		std::copy(foundLines.begin(), foundLines.end(), std::ostream_iterator<int>(result, ", "));
+		cout << "Text found at " << result.str() << endl;
 	}
 	catch (exception & e)
 	{
