@@ -38,11 +38,11 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 	// после старта двигателя
 	BOOST_FIXTURE_TEST_SUITE(when_engine_started, when_engine_started_)
 		
-		// может изменить скорость
-		BOOST_AUTO_TEST_CASE(can_change_speed)
+		// не может увеличивать скорость на нейтралке
+		BOOST_AUTO_TEST_CASE(cant_accelerate_in_neutral_gear)
 		{
-			BOOST_CHECK(car.SetSpeed(10));
-			BOOST_CHECK_EQUAL(car.GetSpeed(), 10);
+			BOOST_CHECK(!car.SetSpeed(10));
+			BOOST_CHECK_EQUAL(car.GetSpeed(), 0);
 		}
 
 	BOOST_AUTO_TEST_SUITE_END()

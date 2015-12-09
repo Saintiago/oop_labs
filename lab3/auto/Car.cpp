@@ -24,6 +24,10 @@ bool CCar::StartEngine()
 
 bool CCar::SetSpeed(unsigned int speed)
 {
+	if (GetGear() == Gears::Neutral && speed > m_speed)
+	{
+		return false;
+	}
 	m_speed = speed;
 	return true;
 }
