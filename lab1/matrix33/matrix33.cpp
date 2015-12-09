@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "matrix33.h"
 
+// TODO: const char*
+// нет проверки ошибок открытия файла
 matrix33 ReadMatrix(char* fileName)
 {
 	matrix33 matrix;
@@ -62,6 +64,9 @@ int FindMultiplier(int i, int j)
 	return multiplier;
 }
 
+// TODO: Сравнивать с нулем с некоторой точностью
+// DBL_EPSILON
+// invert inverted inverted
 matrix33 InverseMatrix(const matrix33 & matrix)
 {
 	double determinant = Det(matrix);
