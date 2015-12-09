@@ -15,14 +15,17 @@ public:
 		Fifth = 5
 	};
 
+	static const unsigned int maxSpeed = 150;
+
 	unsigned int GetSpeed();
 	Gears GetGear();
 	bool IsEngineOn();
 	bool StartEngine();
+	bool SetSpeed(unsigned int speed);
 
 private:
 
 	bool m_isEngineOn = false;
-
+	unsigned int m_speed = 0;
 };
 

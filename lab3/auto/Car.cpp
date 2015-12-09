@@ -3,7 +3,7 @@
 
 unsigned int CCar::GetSpeed()
 {
-	return 0;
+	return m_speed;
 }
 
 CCar::Gears CCar::GetGear()
@@ -19,5 +19,11 @@ bool CCar::IsEngineOn()
 bool CCar::StartEngine()
 {
 	m_isEngineOn = true;
+	return true;
+}
+
+bool CCar::SetSpeed(unsigned int speed)
+{
+	m_speed = speed;
 	return true;
 }
