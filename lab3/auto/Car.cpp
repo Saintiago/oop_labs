@@ -6,9 +6,9 @@ unsigned int CCar::GetSpeed()
 	return m_speed;
 }
 
-CCar::Gears CCar::GetGear()
+CCar::Gear CCar::GetGear()
 {
-	return Gears::Neutral;
+	return m_gear;
 }
 
 bool CCar::IsEngineOn()
@@ -24,10 +24,16 @@ bool CCar::StartEngine()
 
 bool CCar::SetSpeed(unsigned int speed)
 {
-	if (GetGear() == Gears::Neutral && speed > m_speed)
+	if (GetGear() == Gear::Neutral && speed > m_speed)
 	{
 		return false;
 	}
 	m_speed = speed;
+	return true;
+}
+
+bool CCar::SetGear(Gear gear)
+{
+	m_gear = gear;
 	return true;
 }

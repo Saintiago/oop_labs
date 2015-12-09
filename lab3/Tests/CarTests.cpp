@@ -17,7 +17,7 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 	BOOST_AUTO_TEST_CASE(is_not_moving_in_neutral_gear_with_stopped_engine_by_default)
 	{
 		BOOST_CHECK_EQUAL(car.GetSpeed(), 0);
-		BOOST_CHECK_EQUAL(car.GetGear(), CCar::Gears::Neutral);
+		BOOST_CHECK_EQUAL(car.GetGear(), CCar::Gear::Neutral);
 		BOOST_CHECK(!car.IsEngineOn());
 	}
 
@@ -43,6 +43,13 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 		{
 			BOOST_CHECK(!car.SetSpeed(10));
 			BOOST_CHECK_EQUAL(car.GetSpeed(), 0);
+		}
+
+		// может включить передачу
+		BOOST_AUTO_TEST_CASE(can_shift_gear)
+		{
+			BOOST_CHECK(car.SetGear(CCar::Gear::First));
+			BOOST_CHECK_EQUAL(car.GetGear(), CCar::Gear::First);
 		}
 
 	BOOST_AUTO_TEST_SUITE_END()

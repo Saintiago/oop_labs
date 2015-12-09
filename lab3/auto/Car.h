@@ -4,7 +4,7 @@ class CCar
 {
 public:
 
-	enum Gears
+	enum Gear
 	{
 		Rear = -1,
 		Neutral = 0,
@@ -18,14 +18,16 @@ public:
 	static const unsigned int maxSpeed = 150;
 
 	unsigned int GetSpeed();
-	Gears GetGear();
+	Gear GetGear();
 	bool IsEngineOn();
 	bool StartEngine();
 	bool SetSpeed(unsigned int speed);
+	bool SetGear(Gear gear);
 
 private:
 
 	bool m_isEngineOn = false;
 	unsigned int m_speed = 0;
+	Gear m_gear = Gear::Neutral;
 };
 
