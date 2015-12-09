@@ -34,6 +34,16 @@ bool CCar::SetSpeed(unsigned int speed)
 
 bool CCar::SetGear(Gear gear)
 {
+	if (!IsGearInRange(gear))
+	{
+		return false;
+	}
 	m_gear = gear;
 	return true;
+}
+
+bool CCar::IsGearInRange(Gear gear)
+{
+	return (m_speed >= gearSpeedRange[gear].min
+		 && m_speed <= gearSpeedRange[gear].max);
 }

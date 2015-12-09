@@ -52,6 +52,30 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 			BOOST_CHECK_EQUAL(car.GetGear(), CCar::Gear::First);
 		}
 
+		// может выбрать передачу только в пределах ее допустимых скоростей
+		BOOST_AUTO_TEST_CASE(can_shift_gear_only_when_in_corresponding_speed_range)
+		{
+			BOOST_CHECK(!car.SetGear(CCar::Gear::Second));
+			BOOST_CHECK(car.SetGear(CCar::Gear::First));
+			car.SetSpeed(19);
+			BOOST_CHECK(!car.SetGear(CCar::Gear::Second));
+			car.SetSpeed(20);
+			BOOST_CHECK(car.SetGear(CCar::Gear::Second));
+			car.SetSpeed(50);
+			BOOST_CHECK(car.SetGear(CCar::Gear::Second));
+			BOOST_CHECK_EQUAL(car.GetGear(), CCar::Gear::Second);
+
+			car.SetSpeed(30);
+			BOOST_CHECK(!car.SetGear(CCar::Gear::Fifth));
+			car.SetSpeed(49);
+			BOOST_CHECK(!car.SetGear(CCar::Gear::Fifth));
+			car.SetSpeed(50);
+			BOOST_CHECK(car.SetGear(CCar::Gear::Fifth));
+			car.SetSpeed(150);
+			BOOST_CHECK(car.SetGear(CCar::Gear::Fifth));
+			BOOST_CHECK_EQUAL(car.GetGear(), CCar::Gear::Fifth);
+		}
+
 	BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

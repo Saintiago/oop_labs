@@ -1,4 +1,5 @@
 #pragma once
+#include <map>
 
 class CCar
 {
@@ -15,7 +16,10 @@ public:
 		Fifth = 5
 	};
 
-	static const unsigned int maxSpeed = 150;
+	struct SpeedRange
+	{
+		unsigned int min, max;
+	};
 
 	unsigned int GetSpeed();
 	Gear GetGear();
@@ -29,5 +33,19 @@ private:
 	bool m_isEngineOn = false;
 	unsigned int m_speed = 0;
 	Gear m_gear = Gear::Neutral;
+	const unsigned int m_maxSpeed = 150;
+	std::map <Gear, SpeedRange> gearSpeedRange =
+	{
+		{ Rear,{ 0, 20 } },
+		{ Neutral,{ 0, m_maxSpeed } },
+		{ First,{ 0, 30 } },
+		{ Second,{ 20, 50 } },
+		{ Third,{ 30, 60 } },
+		{ Fourth,{ 40, 90 } },
+		{ Fifth,{ 50, m_maxSpeed } }
+	};
+
+	bool IsGearInRange(Gear gear);
+
 };
 
