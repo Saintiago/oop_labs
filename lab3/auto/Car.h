@@ -1,6 +1,6 @@
 #pragma once
 
-class CAuto
+class CCar
 {
 public:
 
@@ -18,8 +18,11 @@ public:
 	unsigned int GetSpeed();
 	Gears GetGear();
 	bool IsEngineOn();
+	bool StartEngine();
 
 private:
+
+	bool m_isEngineOn = false;
 
 };
 
