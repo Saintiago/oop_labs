@@ -34,7 +34,7 @@ bool CCar::SetSpeed(unsigned int speed)
 
 bool CCar::SetGear(Gear gear)
 {
-	if (!IsGearInRange(gear))
+	if (!CanShiftGearTo(gear))
 	{
 		return false;
 	}
@@ -42,8 +42,15 @@ bool CCar::SetGear(Gear gear)
 	return true;
 }
 
-bool CCar::IsGearInRange(Gear gear)
+bool CCar::CanShiftGearTo(Gear gear)
 {
-	return (m_speed >= gearSpeedRange[gear].min
-		 && m_speed <= gearSpeedRange[gear].max);
+	if (gear == m_gear || gear == Gear::Neutral)
+	{
+		m_gear = gear;
+		return true;
+	}
+
+	return (!(m_gear == Gear::Rear && m_speed > 0)
+		&& m_speed >= gearSpeedRange[gear].min
+		&& m_speed <= gearSpeedRange[gear].max);
 }

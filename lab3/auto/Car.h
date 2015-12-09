@@ -36,16 +36,17 @@ private:
 	const unsigned int m_maxSpeed = 150;
 	std::map <Gear, SpeedRange> gearSpeedRange =
 	{
-		{ Rear,{ 0, 20 } },
-		{ Neutral,{ 0, m_maxSpeed } },
-		{ First,{ 0, 30 } },
-		{ Second,{ 20, 50 } },
-		{ Third,{ 30, 60 } },
-		{ Fourth,{ 40, 90 } },
-		{ Fifth,{ 50, m_maxSpeed } }
+		{ Gear::Rear,{ 0, 20 } },
+		{ Gear::Neutral,{ 0, m_maxSpeed } },
+		{ Gear::First,{ 0, 30 } },
+		{ Gear::Second,{ 20, 50 } },
+		{ Gear::Third,{ 30, 60 } },
+		{ Gear::Fourth,{ 40, 90 } },
+		{ Gear::Fifth,{ 50, m_maxSpeed } }
 	};
+	bool is_movingBackwards = false;
 
-	bool IsGearInRange(Gear gear);
+	bool CanShiftGearTo(Gear gear);
 
 };
 
