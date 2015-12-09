@@ -21,9 +21,9 @@ public:
 		unsigned int min, max;
 	};
 
-	unsigned int GetSpeed();
-	Gear GetGear();
-	bool IsEngineOn();
+	unsigned int GetSpeed() const;
+	Gear GetGear() const;
+	bool IsEngineOn() const;
 	bool StartEngine();
 	bool SetSpeed(unsigned int speed);
 	bool SetGear(Gear gear);
@@ -44,7 +44,6 @@ private:
 		{ Gear::Fourth,{ 40, 90 } },
 		{ Gear::Fifth,{ 50, m_maxSpeed } }
 	};
-	bool is_movingBackwards = false;
 
 	bool CanShiftGearTo(Gear gear);
 

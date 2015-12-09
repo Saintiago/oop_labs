@@ -1,17 +1,17 @@
 #include "stdafx.h"
 #include "Car.h"
 
-unsigned int CCar::GetSpeed()
+unsigned int CCar::GetSpeed() const
 {
 	return m_speed;
 }
 
-CCar::Gear CCar::GetGear()
+CCar::Gear CCar::GetGear() const
 {
 	return m_gear;
 }
 
-bool CCar::IsEngineOn()
+bool CCar::IsEngineOn() const
 {
 	return m_isEngineOn;
 }
@@ -46,11 +46,11 @@ bool CCar::CanShiftGearTo(Gear gear)
 {
 	if (gear == m_gear || gear == Gear::Neutral)
 	{
-		m_gear = gear;
 		return true;
 	}
 
-	return (!(m_gear == Gear::Rear && m_speed > 0)
+	return (!(gear == Gear::Rear && m_speed > 0)
+		&& !(m_gear == Gear::Rear && m_speed > 0)
 		&& m_speed >= gearSpeedRange[gear].min
 		&& m_speed <= gearSpeedRange[gear].max);
 }

@@ -76,14 +76,20 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 			BOOST_CHECK_EQUAL(car.GetGear(), CCar::Gear::Fifth);
 		}
 
-		// переключает передачу с заднего хода на первую только при нулевой скорости
-		BOOST_AUTO_TEST_CASE(shifts_gear_from_rear_to_first_only_while_standing_still )
+		// переключает передачу с заднего хода на первую и наоборот только при нулевой скорости
+		BOOST_AUTO_TEST_CASE(shifts_gear_from_rear_to_first_and_vice_versa_only_while_standing_still )
 		{
 			car.SetGear(CCar::Gear::Rear);
 			car.SetSpeed(20);
 			BOOST_CHECK(!car.SetGear(CCar::Gear::First));
 			car.SetSpeed(0);
 			BOOST_CHECK(car.SetGear(CCar::Gear::First));
+
+			car.SetGear(CCar::Gear::First);
+			car.SetSpeed(20);
+			BOOST_CHECK(!car.SetGear(CCar::Gear::Rear));
+			car.SetSpeed(0);
+			BOOST_CHECK(car.SetGear(CCar::Gear::Rear));
 		}
 
 	BOOST_AUTO_TEST_SUITE_END()
