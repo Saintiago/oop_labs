@@ -92,6 +92,23 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 			BOOST_CHECK(car.SetGear(CCar::Gear::Rear));
 		}
 
+		// переключившись на нейтралку с заднего хода может переключится 
+		// на первую только при нулевой скорости и наоборот
+		BOOST_AUTO_TEST_CASE(can_shift_to_first_from_neutral_after_rear_and_vice_versa_only_while_standing_still)
+		{
+			car.SetGear(CCar::Gear::Rear);
+			car.SetSpeed(10);
+			car.SetGear(CCar::Gear::Neutral);
+			BOOST_CHECK(!car.SetGear(CCar::Gear::First));
+			car.SetSpeed(0);
+			BOOST_CHECK(car.SetGear(CCar::Gear::First));
+			car.SetSpeed(10);
+			car.SetGear(CCar::Gear::Neutral);
+			BOOST_CHECK(!car.SetGear(CCar::Gear::Rear));
+			car.SetSpeed(0);
+			BOOST_CHECK(car.SetGear(CCar::Gear::Rear));
+		}
+
 	BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

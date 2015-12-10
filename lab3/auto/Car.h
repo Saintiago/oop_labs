@@ -16,6 +16,13 @@ public:
 		Fifth = 5
 	};
 
+	enum Direction
+	{
+		Backwards = -1,
+		StandingStill = 0,
+		Forward = 1
+	};
+
 	struct SpeedRange
 	{
 		unsigned int min, max;
@@ -44,8 +51,8 @@ private:
 		{ Gear::Fourth,{ 40, 90 } },
 		{ Gear::Fifth,{ 50, m_maxSpeed } }
 	};
+	Direction m_direction = Direction::StandingStill;
 
 	bool CanShiftGearTo(Gear gear);
-
 };
 

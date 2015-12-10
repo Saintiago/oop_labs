@@ -29,6 +29,12 @@ bool CCar::SetSpeed(unsigned int speed)
 		return false;
 	}
 	m_speed = speed;
+
+	if (m_speed == 0)
+	{
+		m_direction = Direction::StandingStill;
+	}
+
 	return true;
 }
 
@@ -39,6 +45,16 @@ bool CCar::SetGear(Gear gear)
 		return false;
 	}
 	m_gear = gear;
+
+	if (m_gear < Gear::Neutral)
+	{
+		m_direction = Direction::Backwards;
+	}
+	else if (m_gear > Gear::Neutral)
+	{
+		m_direction = Direction::Forward;
+	}
+
 	return true;
 }
 
@@ -49,8 +65,8 @@ bool CCar::CanShiftGearTo(Gear gear)
 		return true;
 	}
 
-	return (!(gear == Gear::Rear && m_speed > 0)
-		&& !(m_gear == Gear::Rear && m_speed > 0)
+	return (!(gear < Gear::Neutral && m_direction == Direction::Forward)
+		&& !(gear > Gear::Neutral && m_direction == Direction::Backwards)
 		&& m_speed >= gearSpeedRange[gear].min
 		&& m_speed <= gearSpeedRange[gear].max);
 }
