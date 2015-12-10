@@ -22,6 +22,11 @@ bool CCar::StartEngine()
 	return true;
 }
 
+bool CCar::StopEngine()
+{
+	return (m_direction == Direction::StandingStill && m_gear == Gear::Neutral);
+}
+
 bool CCar::SetSpeed(unsigned int speed)
 {
 	if (GetGear() == Gear::Neutral && speed > m_speed)

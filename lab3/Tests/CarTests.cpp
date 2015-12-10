@@ -109,6 +109,18 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 			BOOST_CHECK(car.SetGear(CCar::Gear::Rear));
 		}
 
+		// может остановить двигатель только при нулевой скорости на нейтральной передаче
+		BOOST_AUTO_TEST_CASE(can_stop_engine_only_in_neutral_while_standing_still)
+		{
+			car.SetGear(CCar::Gear::First);
+			car.SetSpeed(10);
+			BOOST_CHECK(!car.StopEngine());
+			car.SetSpeed(0);
+			BOOST_CHECK(!car.StopEngine());
+			car.SetGear(CCar::Gear::Neutral);
+			BOOST_CHECK(car.StopEngine());
+		}
+
 	BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()

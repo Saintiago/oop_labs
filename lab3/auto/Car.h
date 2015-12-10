@@ -32,6 +32,7 @@ public:
 	Gear GetGear() const;
 	bool IsEngineOn() const;
 	bool StartEngine();
+	bool StopEngine();
 	bool SetSpeed(unsigned int speed);
 	bool SetGear(Gear gear);
 
