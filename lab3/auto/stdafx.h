@@ -10,6 +10,14 @@
 #include <stdio.h>
 #include <tchar.h>
 
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <map>
+#include <exception>
+#include <sstream>
+
+
 
 
 // TODO: reference additional headers your program requires here

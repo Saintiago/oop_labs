@@ -76,6 +76,23 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 			BOOST_CHECK_EQUAL(car.GetGear(), CCar::Gear::Fifth);
 		}
 
+		// может менять скорость только в пределах передачи
+		BOOST_AUTO_TEST_CASE(can_accelerate_only_in_gear_range)
+		{
+			car.SetGear(CCar::Gear::First);
+			BOOST_CHECK(car.SetSpeed(0));
+			BOOST_CHECK(car.SetSpeed(15));
+			BOOST_CHECK(car.SetSpeed(30));
+			BOOST_CHECK(!car.SetSpeed(31));
+			car.SetGear(CCar::Gear::Third);
+			BOOST_CHECK(car.SetSpeed(50));
+			car.SetGear(CCar::Gear::Fifth);
+			BOOST_CHECK(!car.SetSpeed(49));
+			BOOST_CHECK(car.SetSpeed(50));
+			BOOST_CHECK(car.SetSpeed(150));
+			BOOST_CHECK(!car.SetSpeed(151));
+		}
+
 		// переключает передачу с заднего хода на первую и наоборот только при нулевой скорости
 		BOOST_AUTO_TEST_CASE(shifts_gear_from_rear_to_first_and_vice_versa_only_while_standing_still )
 		{
@@ -122,5 +139,12 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 		}
 
 	BOOST_AUTO_TEST_SUITE_END()
+
+	// при выключенном двигателе может переключить передачу только на нейтральную
+	BOOST_AUTO_TEST_CASE(can_stop_engine_only_in_neutral_while_standing_still)
+	{
+		BOOST_CHECK(!car.SetGear(CCar::Gear::First));
+		BOOST_CHECK(car.SetGear(CCar::Gear::Neutral));
+	}
 
 BOOST_AUTO_TEST_SUITE_END()

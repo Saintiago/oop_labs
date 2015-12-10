@@ -30,6 +30,7 @@ public:
 
 	unsigned int GetSpeed() const;
 	Gear GetGear() const;
+	Direction GetDirection() const;
 	bool IsEngineOn() const;
 	bool StartEngine();
 	bool StopEngine();

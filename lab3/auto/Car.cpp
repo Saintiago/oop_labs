@@ -11,6 +11,11 @@ CCar::Gear CCar::GetGear() const
 	return m_gear;
 }
 
+CCar::Direction CCar::GetDirection() const
+{
+	return m_direction;
+}
+
 bool CCar::IsEngineOn() const
 {
 	return m_isEngineOn;
@@ -18,13 +23,22 @@ bool CCar::IsEngineOn() const
 
 bool CCar::StartEngine()
 {
-	m_isEngineOn = true;
-	return true;
+	if (!m_isEngineOn)
+	{
+		m_isEngineOn = true;
+		return true;
+	}
+	return false;
 }
 
 bool CCar::StopEngine()
 {
-	return (m_direction == Direction::StandingStill && m_gear == Gear::Neutral);
+	if (m_isEngineOn && m_direction == Direction::StandingStill && m_gear == Gear::Neutral)
+	{
+		m_isEngineOn = false;
+		return true;
+	}
+	return false;
 }
 
 bool CCar::SetSpeed(unsigned int speed)
@@ -33,6 +47,12 @@ bool CCar::SetSpeed(unsigned int speed)
 	{
 		return false;
 	}
+
+	if (speed < gearSpeedRange[m_gear].min || speed > gearSpeedRange[m_gear].max)
+	{
+		return false;
+	}
+
 	m_speed = speed;
 
 	if (m_speed == 0)
@@ -65,6 +85,11 @@ bool CCar::SetGear(Gear gear)
 
 bool CCar::CanShiftGearTo(Gear gear)
 {
+	if (!m_isEngineOn && gear != Gear::Neutral)
+	{
+		return false;
+	}
+
 	if (gear == m_gear || gear == Gear::Neutral)
 	{
 		return true;
