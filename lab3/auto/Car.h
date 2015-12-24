@@ -28,8 +28,8 @@ public:
 		int min, max;
 	};
 
-	static int maxSpeed;
-	static std::map <Gear, SpeedRange> gearSpeedRange;
+	static const int maxSpeed;
+	static const std::map <Gear, SpeedRange> gearSpeedRange;
 
 	int GetSpeed() const;
 	Gear GetGear() const;

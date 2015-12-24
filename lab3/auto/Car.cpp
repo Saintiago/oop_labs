@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Car.h"
 
-int CCar::maxSpeed = 150;
-std::map <CCar::Gear, CCar::SpeedRange> CCar::gearSpeedRange =
+int const CCar::maxSpeed = 150;
+std::map <CCar::Gear, CCar::SpeedRange> const CCar::gearSpeedRange =
 {
 	{ CCar::Gear::Rear,{ -20, 0 } },
 	{ CCar::Gear::Neutral,{ 0, CCar::maxSpeed } },
@@ -71,7 +71,7 @@ void CCar::SetSpeed(int speed)
 		throw std::exception("You must shift gear to accelerate.");
 	}
 
-	if (speed < gearSpeedRange[m_gear].min || speed > gearSpeedRange[m_gear].max)
+	if (speed < gearSpeedRange.at(m_gear).min || speed > gearSpeedRange.at(m_gear).max)
 	{
 		throw std::exception("Careful! You'll break transmission like that.");
 	}
@@ -104,6 +104,6 @@ bool CCar::CanShiftGearTo(Gear gear)
 
 	return (!(gear < Gear::Neutral && GetDirection() == Direction::Forward)
 		&& !(gear > Gear::Neutral && GetDirection() == Direction::Backwards)
-		&& m_speed >= gearSpeedRange[gear].min
-		&& m_speed <= gearSpeedRange[gear].max);
+		&& m_speed >= gearSpeedRange.at(gear).min
+		&& m_speed <= gearSpeedRange.at(gear).max);
 }
