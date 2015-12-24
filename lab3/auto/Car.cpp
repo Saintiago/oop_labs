@@ -1,7 +1,19 @@
 #include "stdafx.h"
 #include "Car.h"
 
-unsigned int CCar::GetSpeed() const
+int CCar::maxSpeed = 150;
+std::map <CCar::Gear, CCar::SpeedRange> CCar::gearSpeedRange =
+{
+	{ CCar::Gear::Rear,{ -20, 0 } },
+	{ CCar::Gear::Neutral,{ 0, CCar::maxSpeed } },
+	{ CCar::Gear::First,{ 0, 30 } },
+	{ CCar::Gear::Second,{ 20, 50 } },
+	{ CCar::Gear::Third,{ 30, 60 } },
+	{ CCar::Gear::Fourth,{ 40, 90 } },
+	{ CCar::Gear::Fifth,{ 50, CCar::maxSpeed } }
+};
+
+int CCar::GetSpeed() const
 {
 	return m_speed;
 }
@@ -13,7 +25,18 @@ CCar::Gear CCar::GetGear() const
 
 CCar::Direction CCar::GetDirection() const
 {
-	return m_direction;
+	if (m_speed > 0)
+	{
+		return Direction::Forward;
+	}
+	else if (m_speed < 0)
+	{
+		return Direction::Backwards;
+	}
+	else
+	{
+		return Direction::StandingStill;
+	}
 }
 
 bool CCar::IsEngineOn() const
@@ -33,7 +56,7 @@ bool CCar::StartEngine()
 
 bool CCar::StopEngine()
 {
-	if (m_isEngineOn && m_direction == Direction::StandingStill && m_gear == Gear::Neutral)
+	if (m_isEngineOn && GetDirection() == Direction::StandingStill && m_gear == Gear::Neutral)
 	{
 		m_isEngineOn = false;
 		return true;
@@ -41,26 +64,19 @@ bool CCar::StopEngine()
 	return false;
 }
 
-bool CCar::SetSpeed(unsigned int speed)
+void CCar::SetSpeed(int speed)
 {
-	if (GetGear() == Gear::Neutral && speed > m_speed)
+	if (GetGear() == Gear::Neutral && abs(speed) > abs(m_speed))
 	{
-		return false;
+		throw std::exception("You must shift gear to accelerate.");
 	}
 
 	if (speed < gearSpeedRange[m_gear].min || speed > gearSpeedRange[m_gear].max)
 	{
-		return false;
+		throw std::exception("Careful! You'll break transmission like that.");
 	}
 
 	m_speed = speed;
-
-	if (m_speed == 0)
-	{
-		m_direction = Direction::StandingStill;
-	}
-
-	return true;
 }
 
 bool CCar::SetGear(Gear gear)
@@ -70,15 +86,6 @@ bool CCar::SetGear(Gear gear)
 		return false;
 	}
 	m_gear = gear;
-
-	if (m_gear < Gear::Neutral)
-	{
-		m_direction = Direction::Backwards;
-	}
-	else if (m_gear > Gear::Neutral)
-	{
-		m_direction = Direction::Forward;
-	}
 
 	return true;
 }
@@ -95,8 +102,8 @@ bool CCar::CanShiftGearTo(Gear gear)
 		return true;
 	}
 
-	return (!(gear < Gear::Neutral && m_direction == Direction::Forward)
-		&& !(gear > Gear::Neutral && m_direction == Direction::Backwards)
+	return (!(gear < Gear::Neutral && GetDirection() == Direction::Forward)
+		&& !(gear > Gear::Neutral && GetDirection() == Direction::Backwards)
 		&& m_speed >= gearSpeedRange[gear].min
 		&& m_speed <= gearSpeedRange[gear].max);
 }

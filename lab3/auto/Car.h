@@ -5,7 +5,7 @@ class CCar
 {
 public:
 
-	enum Gear
+	enum class Gear
 	{
 		Rear = -1,
 		Neutral = 0,
@@ -16,7 +16,7 @@ public:
 		Fifth = 5
 	};
 
-	enum Direction
+	enum class Direction
 	{
 		Backwards = -1,
 		StandingStill = 0,
@@ -25,36 +25,26 @@ public:
 
 	struct SpeedRange
 	{
-		unsigned int min, max;
+		int min, max;
 	};
 
-	unsigned int GetSpeed() const;
+	static int maxSpeed;
+	static std::map <Gear, SpeedRange> gearSpeedRange;
+
+	int GetSpeed() const;
 	Gear GetGear() const;
 	Direction GetDirection() const;
 	bool IsEngineOn() const;
 	bool StartEngine();
 	bool StopEngine();
-	bool SetSpeed(unsigned int speed);
+	void SetSpeed(int speed);
 	bool SetGear(Gear gear);
 
 private:
 
 	bool m_isEngineOn = false;
-	unsigned int m_speed = 0;
+	int m_speed = 0;
 	Gear m_gear = Gear::Neutral;
-	const unsigned int m_maxSpeed = 150;
-	std::map <Gear, SpeedRange> gearSpeedRange =
-	{
-		{ Gear::Rear,{ 0, 20 } },
-		{ Gear::Neutral,{ 0, m_maxSpeed } },
-		{ Gear::First,{ 0, 30 } },
-		{ Gear::Second,{ 20, 50 } },
-		{ Gear::Third,{ 30, 60 } },
-		{ Gear::Fourth,{ 40, 90 } },
-		{ Gear::Fifth,{ 50, m_maxSpeed } }
-	};
-	Direction m_direction = Direction::StandingStill;
-
 	bool CanShiftGearTo(Gear gear);
 };
 
