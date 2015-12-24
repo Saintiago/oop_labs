@@ -123,23 +123,33 @@ BOOST_FIXTURE_TEST_SUITE(Car, CarFixture)
 		}
 
 		// переключившись на нейтралку с заднего хода может переключится 
-		// на первую только при нулевой скорости и наоборот
-		BOOST_AUTO_TEST_CASE(can_shift_to_first_from_neutral_after_rear_and_vice_versa_only_while_standing_still)
+		// на первую только при нулевой скорости
+		BOOST_AUTO_TEST_CASE(can_shift_to_first_from_neutral_after_rear_only_while_standing_still)
 		{
 			car.SetGear(CCar::Gear::Rear);
 			car.SetSpeed(-10);
 			car.SetGear(CCar::Gear::Neutral);
 			BOOST_CHECK(!car.SetGear(CCar::Gear::First));
 			BOOST_CHECK(car.GetGear() == CCar::Gear::Neutral);
+			
 			car.SetSpeed(0);
 			BOOST_CHECK(car.SetGear(CCar::Gear::First));
 			BOOST_CHECK(car.GetGear() == CCar::Gear::First);
+		}
+
+		// переключившись на нейтралку с первой скорости может переключится 
+		// на заднюю только при нулевой скорости
+		BOOST_AUTO_TEST_CASE(can_shift_to_neutral_from_first_after_rear_only_while_standing_still)
+		{
+			car.SetGear(CCar::Gear::First);
 			car.SetSpeed(10);
 			car.SetGear(CCar::Gear::Neutral);
 			BOOST_CHECK(!car.SetGear(CCar::Gear::Rear));
 			BOOST_CHECK(car.GetGear() == CCar::Gear::Neutral);
+
 			car.SetSpeed(0);
 			BOOST_CHECK(car.SetGear(CCar::Gear::Rear));
+			BOOST_CHECK(car.GetGear() == CCar::Gear::Rear);
 		}
 
 		// может остановить двигатель только при нулевой скорости на нейтральной передаче
