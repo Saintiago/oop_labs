@@ -14,8 +14,8 @@ CDriver::CDriver()
 	};
 	m_direction_string =
 	{
-		{ CCar::Direction::Backwards, "backwards" },
-		{ CCar::Direction::Forward, "forward" },
+		{ CCar::Direction::Backwards, "moving backwards" },
+		{ CCar::Direction::Forward, "moving forward" },
 		{ CCar::Direction::StandingStill, "standing still" }
 	};
 	m_gear_string =
