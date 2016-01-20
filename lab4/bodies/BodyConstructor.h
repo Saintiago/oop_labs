@@ -26,19 +26,21 @@ public:
 	static const int waterDensity = 1000;
 	static const double g;
 
-	BodyPtr MakeBody(std::stringstream & ss, bool addToList = true);
+	BodyPtr MakeBody(std::istream & is);
 	std::string GetHighestMassBodyInfo() const;
 	std::string GetLightestInWaterBodyInfo() const;
-	void ProcessCommand(std::string rawCommand);
+	void ProcessCommand(std::istream & is);
+	void ProcessCreateCommand(std::istream & is);
 	std::string GetBodiesListStr() const;
 
 private:
-	BodyPtr MakeCompound(std::vector<std::string> & args);
+	BodyPtr MakeCompound(std::istream & is);
 	BodyPtr MakeCone(std::vector<double> & args);
 	BodyPtr MakeCylinder(std::vector<double> & args);
 	BodyPtr MakeParallelepiped(std::vector<double> & args);
 	BodyPtr MakeSphere(std::vector<double> & args);
 	double GetWeightInWater(BodyPtr body) const;
+	void AddBodyToList(BodyPtr body);
 
 	BodyPtrVector m_bodies;
 };

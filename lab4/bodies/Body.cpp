@@ -10,23 +10,13 @@ const std::map<std::string, CBody::Type> CBody::StringType =
 	{ "sphere", CBody::Type::Sphere },
 };
 
-CBody::CBody(const std::string & type, double density)
-	: m_density(density)
-	, m_type(type)
+CBody::CBody(const std::string & type)
+	: m_type(type)
 {
 }
 
 CBody::~CBody()
 {
-}
-
-double CBody::GetDensity()const
-{
-	return m_density;
-}
-void CBody::SetDensity(double density)
-{
-	m_density = density;
 }
 
 std::string CBody::GetType()const

@@ -3,7 +3,7 @@
 
 
 CCylinder::CCylinder(double density, double radius, double height)
-	: CBody("Cylinder", density)
+	: CSolidBody("Cylinder", density)
 	, m_radius(radius)
 	, m_height(height)
 {

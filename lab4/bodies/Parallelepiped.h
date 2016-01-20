@@ -1,7 +1,7 @@
 #pragma once
-#include "Body.h"
+#include "SolidBody.h"
 class CParallelepiped :
-	public CBody
+	public CSolidBody
 {
 public:
 	CParallelepiped(double density, double width, double height, double depth);

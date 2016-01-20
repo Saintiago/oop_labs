@@ -8,10 +8,6 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	try
 	{
-		std::string command = "";
-
-		CBodyConstructor constructor;
-
 		std::cout << "Available commands:" << std::endl;
 		std::cout << "  create <compound, cone, cylinder, parallelepiped, sphere> <params>:" << std::endl;
 		std::cout << "    <params>:" << std::endl;
@@ -25,11 +21,13 @@ int _tmain(int argc, _TCHAR* argv[])
 		std::cout << "  lightest - shows info about body with min weight in water," << std::endl;
 		std::cout << "  exit - shuts down application." << std::endl;
 
+		std::string command = "";
+		CBodyConstructor constructor;
+
 		while (command != "exit")
 		{
 			std::cout << std::endl << "Enter command: " << std::endl;
-			std::getline(std::cin, command);
-			constructor.ProcessCommand(command);
+			constructor.ProcessCommand(std::cin);
 		}
 	}
 	catch (std::exception e)

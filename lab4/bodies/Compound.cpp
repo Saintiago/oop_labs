@@ -3,7 +3,7 @@
 
 
 CCompound::CCompound()
-	: CBody("Compound", 0.0)
+	: CBody("Compound")
 {
 }
 
@@ -19,6 +19,16 @@ double CCompound::GetVolume()const
 		volume += body->GetVolume();
 	}
 	return volume;
+}
+
+double CCompound::GetDensity()const
+{
+	double totalMass = 0;
+	for (auto body : m_bodies)
+	{
+		totalMass += body->GetMass();
+	}
+	return (totalMass / GetVolume());
 }
 
 void CCompound::AppendProperties(std::ostream & strm) const
@@ -38,16 +48,4 @@ std::string CCompound::GetBodiesListStr() const
 void CCompound::AddBody(BodyPtr body)
 {
 	m_bodies.push_back(body);
-	CorrectDensity();
-	
-}
-
-void CCompound::CorrectDensity()
-{
-	double totalMass = 0;
-	for (auto body : m_bodies)
-	{
-		totalMass += body->GetMass();
-	}
-	SetDensity(totalMass / GetVolume());
 }

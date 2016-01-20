@@ -3,7 +3,7 @@
 
 
 CCone::CCone(double density, double radius, double height)
-	: CBody("Cone", density)
+	: CSolidBody("Cone", density)
 	, m_radius(radius)
 	, m_height(height)
 {

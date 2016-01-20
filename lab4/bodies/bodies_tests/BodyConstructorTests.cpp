@@ -25,6 +25,7 @@ BOOST_FIXTURE_TEST_SUITE(Body_constructor, BodyConstructor_)
 	BOOST_AUTO_TEST_CASE(can_make_sphere_by_input_stream_params)
 	{
 		std::stringstream ss("sphere 10 6");
+		std::iostream & is(ss);
 		BodyPtr sphere = constructor.MakeBody(ss);
 		const auto expectedString = R"(Sphere:
 	density = 10
@@ -37,7 +38,8 @@ BOOST_FIXTURE_TEST_SUITE(Body_constructor, BodyConstructor_)
 	// может создать составное тело по параметрам во входящем потоке
 	BOOST_AUTO_TEST_CASE(can_make_compound_by_input_stream_params)
 	{
-		std::stringstream ss("compound sphere 10 6 parallelepiped 64 3 5 8");
+		std::stringstream ss;
+		ss << "compound" << std::endl << "sphere 10 6" << std::endl << "parallelepiped 64 3 5 8" << std::endl;
 		BodyPtr compound = constructor.MakeBody(ss);
 		const auto expectedString = R"(Compound:
 	density = 16.32331654

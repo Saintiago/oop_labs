@@ -3,7 +3,7 @@
 
 
 CParallelepiped::CParallelepiped(double density, double width, double height, double depth)
-	: CBody("Parallelepiped", density)
+	: CSolidBody("Parallelepiped", density)
 	, m_width(width)
 	, m_height(height)
 	, m_depth(depth)
