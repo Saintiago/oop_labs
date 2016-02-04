@@ -77,7 +77,11 @@ BodyPtr CBodyConstructor::MakeBody(std::istream & is)
 
 void CBodyConstructor::AddBodyToList(BodyPtr body)
 {
-	m_bodies.push_back(body);
+	if (!body->IsLocked())
+	{
+		body->SetLocked();
+		m_bodies.push_back(body);
+	}
 }
 
 std::string CBodyConstructor::GetHighestMassBodyInfo() const
@@ -128,7 +132,7 @@ double CBodyConstructor::GetWeightInWater(BodyPtr body) const
 	return (body->GetMass() * CBodyConstructor::g) - (CBodyConstructor::waterDensity * body->GetVolume() * CBodyConstructor::g);
 }
 
-void CBodyConstructor::ProcessCommand(std::istream & is)
+bool CBodyConstructor::ProcessCommand(std::istream & is)
 {
 	std::string command;
 	is >> command;
@@ -152,21 +156,20 @@ void CBodyConstructor::ProcessCommand(std::istream & is)
 	else if (command == m_commands.at(Command::Exit))
 	{
 		std::cout << "Bye!" << std::endl;
+		return false;
 	}
 	else
 	{
 		std::cout << "Command not implemented." << std::endl;
 	}
+
+	return true;
 }
 
 void CBodyConstructor::ProcessCreateCommand(std::istream & is)
 {
 	BodyPtr body = MakeBody(is);
-	while (body != nullptr)
-	{
-		AddBodyToList(MakeBody(is));
-		BodyPtr body = MakeBody(is);
-	}
+	AddBodyToList(body);
 }
 
 std::string CBodyConstructor::GetBodiesListStr() const
@@ -174,7 +177,7 @@ std::string CBodyConstructor::GetBodiesListStr() const
 	std::string bodiesList = "";
 	for (auto body : m_bodies)
 	{
-		bodiesList += body->GetType() + " ";
+		bodiesList += body->ToString() + "\n ";
 	}
 	return bodiesList;
 }
@@ -182,10 +185,12 @@ std::string CBodyConstructor::GetBodiesListStr() const
 BodyPtr CBodyConstructor::MakeCompound(std::istream & is)
 {
 	BodyPtr compound = std::make_shared<CCompound>();
-	std::string bodyParams = "";
-	while (bodyParams != "end")
+	std::string answer = "yes";
+	while (answer == "yes")
 	{
 		std::dynamic_pointer_cast<CCompound> (compound)->AddBody(MakeBody(is));
+		std::cout << "Add another body to compound?" << std::endl;
+		std::getline(is, answer);
 	}
 	return compound;
 }

@@ -45,7 +45,13 @@ std::string CCompound::GetBodiesListStr() const
 	return bodiesList;
 }
 
-void CCompound::AddBody(BodyPtr body)
+bool CCompound::AddBody(BodyPtr body)
 {
+	if (body->IsLocked())
+	{
+		return false;
+	}
+	body->SetLocked();
 	m_bodies.push_back(body);
+	return true;
 }

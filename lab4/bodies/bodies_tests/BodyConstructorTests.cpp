@@ -12,10 +12,13 @@ struct BodyConstructor_
 	BodyConstructor_()
 		: constructor()
 	{
-		std::stringstream ss("sphere 10 6");
-		constructor.MakeBody(ss);
-		ss.clear();
-		ss << "parallelepiped 64 3 5 8";
+		std::stringstream ss;
+		ss << "sphere 10 6" << std::endl;
+		BodyPtr sphere = constructor.MakeBody(ss);
+		ss << "parallelepiped 64 3 5 8" << std::endl;
+		BodyPtr parallelepiped = constructor.MakeBody(ss);
+		constructor.AddBodyToList(sphere);
+		constructor.AddBodyToList(parallelepiped);
 	}
 };
 
@@ -39,7 +42,7 @@ BOOST_FIXTURE_TEST_SUITE(Body_constructor, BodyConstructor_)
 	BOOST_AUTO_TEST_CASE(can_make_compound_by_input_stream_params)
 	{
 		std::stringstream ss;
-		ss << "compound" << std::endl << "sphere 10 6" << std::endl << "parallelepiped 64 3 5 8" << std::endl;
+		ss << "compound" << std::endl << "sphere 10 6" << std::endl << "yes" << std::endl << "parallelepiped 64 3 5 8" << std::endl << "no";
 		BodyPtr compound = constructor.MakeBody(ss);
 		const auto expectedString = R"(Compound:
 	density = 16.32331654
@@ -70,4 +73,23 @@ BOOST_FIXTURE_TEST_SUITE(Body_constructor, BodyConstructor_)
 )";
 		BOOST_CHECK_EQUAL(constructor.GetLightestInWaterBodyInfo(), expectedString);
 	}
+	// не позволяет одному телу входить одновременно в состав двух compound'ов
+	BOOST_AUTO_TEST_CASE(forbids_single_body_being_incorporated_in_two_compounds)
+	{
+		std::stringstream ss;
+
+		ss << "sphere 10 6" << std::endl;
+		BodyPtr sphere = constructor.MakeBody(ss);
+
+		ss << "compound" << std::endl << "sphere 1 1" << std::endl << "no" << std::endl;
+		BodyPtr compound1 = constructor.MakeBody(ss);
+
+		ss << "compound" << std::endl << "sphere 1 1" << std::endl << "no" << std::endl;
+		BodyPtr compound2 = constructor.MakeBody(ss);
+
+		BOOST_CHECK(dynamic_cast<CCompound*>(compound1.get())->AddBody(sphere));
+		BOOST_CHECK(!dynamic_cast<CCompound*>(compound1.get())->AddBody(sphere));
+		BOOST_CHECK(!dynamic_cast<CCompound*>(compound2.get())->AddBody(sphere));
+	}
+
 BOOST_AUTO_TEST_SUITE_END()

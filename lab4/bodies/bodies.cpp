@@ -23,11 +23,12 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		std::string command = "";
 		CBodyConstructor constructor;
+		bool waitForCommand = true;
 
-		while (command != "exit")
+		while (!std::cin.eof() && waitForCommand)
 		{
 			std::cout << std::endl << "Enter command: " << std::endl;
-			constructor.ProcessCommand(std::cin);
+			waitForCommand = constructor.ProcessCommand(std::cin);
 		}
 	}
 	catch (std::exception e)

@@ -11,7 +11,7 @@ public:
 	double GetDensity() const override;
 	std::string GetBodiesListStr() const;
 
-	void AddBody(BodyPtr body);
+	bool AddBody(BodyPtr body);
 
 protected:
 	void AppendProperties(std::ostream & strm) const override;

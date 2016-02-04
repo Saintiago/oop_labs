@@ -29,9 +29,10 @@ public:
 	BodyPtr MakeBody(std::istream & is);
 	std::string GetHighestMassBodyInfo() const;
 	std::string GetLightestInWaterBodyInfo() const;
-	void ProcessCommand(std::istream & is);
+	bool ProcessCommand(std::istream & is);
 	void ProcessCreateCommand(std::istream & is);
 	std::string GetBodiesListStr() const;
+	void AddBodyToList(BodyPtr body);
 
 private:
 	BodyPtr MakeCompound(std::istream & is);
@@ -40,7 +41,6 @@ private:
 	BodyPtr MakeParallelepiped(std::vector<double> & args);
 	BodyPtr MakeSphere(std::vector<double> & args);
 	double GetWeightInWater(BodyPtr body) const;
-	void AddBodyToList(BodyPtr body);
 
 	BodyPtrVector m_bodies;
 };

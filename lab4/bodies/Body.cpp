@@ -39,3 +39,13 @@ std::string CBody::ToString()const
 	AppendProperties(strm);
 	return strm.str();
 }
+
+bool CBody::IsLocked() const
+{
+	return m_locked;
+}
+
+void CBody::SetLocked()
+{
+	m_locked = true;
+}
