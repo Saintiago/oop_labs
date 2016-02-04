@@ -30,11 +30,46 @@ BOOST_AUTO_TEST_CASE(is_a_body)
 // может включать в себ€ други тела
 BOOST_AUTO_TEST_CASE(can_include_other_bodies)
 {
-	BOOST_CHECK_EQUAL(compound.GetBodiesListStr(), "Cylinder Sphere ");
+	auto expectedString1 = R"(
+Cylinder:
+	density = 50
+	volume = 6283.185307
+	mass = 314159.2654
+	radius = 20
+	height = 5
+
+Sphere:
+	density = 60
+	volume = 14137.16694
+	mass = 848230.0165
+	radius = 15
+
+)";
+	auto expectedString2 = R"(
+Cylinder:
+	density = 50
+	volume = 6283.185307
+	mass = 314159.2654
+	radius = 20
+	height = 5
+
+Sphere:
+	density = 60
+	volume = 14137.16694
+	mass = 848230.0165
+	radius = 15
+
+Cylinder:
+	density = 10
+	volume = 3141.592654
+	mass = 31415.92654
+	radius = 10
+	height = 10
+
+)";
+	BOOST_CHECK_EQUAL(compound.GetBodiesListStr(), expectedString1);
 	compound.AddBody(std::make_shared<CCylinder>(10, 10, 10));
-	BOOST_CHECK_EQUAL(compound.GetBodiesListStr(), "Cylinder Sphere Cylinder ");
-	compound.AddBody(std::make_shared<CSphere>(10, 10));
-	BOOST_CHECK_EQUAL(compound.GetBodiesListStr(), "Cylinder Sphere Cylinder Sphere ");
+	BOOST_CHECK_EQUAL(compound.GetBodiesListStr(), expectedString2);
 }
 // имеет плотность
 BOOST_AUTO_TEST_CASE(has_a_density)
@@ -58,7 +93,21 @@ BOOST_AUTO_TEST_CASE(can_be_converted_to_string)
 	density = 56.92307692
 	volume = 20420.35225
 	mass = 1162389.282
-)";
+
+Cylinder:
+	density = 50
+	volume = 6283.185307
+	mass = 314159.2654
+	radius = 20
+	height = 5
+
+Sphere:
+	density = 60
+	volume = 14137.16694
+	mass = 848230.0165
+	radius = 15
+
+----------)";
 	BOOST_CHECK_EQUAL(static_cast<const CBody &>(compound).ToString(), expectedString);
 }
 BOOST_AUTO_TEST_SUITE_END()

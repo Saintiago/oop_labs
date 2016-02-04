@@ -33,14 +33,15 @@ double CCompound::GetDensity()const
 
 void CCompound::AppendProperties(std::ostream & strm) const
 {
+	strm << GetBodiesListStr() << "----------";
 }
 
 std::string CCompound::GetBodiesListStr() const
 {
-	std::string bodiesList = "";
+	std::string bodiesList = "\n";
 	for (auto body : m_bodies)
 	{
-		bodiesList += body->GetType() + " ";
+		bodiesList += body->ToString() + "\n";
 	}
 	return bodiesList;
 }

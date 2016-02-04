@@ -48,7 +48,22 @@ BOOST_FIXTURE_TEST_SUITE(Body_constructor, BodyConstructor_)
 	density = 16.32331654
 	volume = 1024.778684
 	mass = 16727.78684
-)";
+
+Sphere:
+	density = 10
+	volume = 904.7786842
+	mass = 9047.786842
+	radius = 6
+
+Parallelepiped:
+	density = 64
+	volume = 120
+	mass = 7680
+	width = 3
+	height = 5
+	depth = 8
+
+----------)";
 		BOOST_CHECK_EQUAL(static_cast<const std::shared_ptr<CBody> &>(compound)->ToString(), expectedString);
 	}
 	// может вывести информацию о теле с наибольшей массой
