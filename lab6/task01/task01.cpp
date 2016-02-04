@@ -9,12 +9,18 @@ using namespace std;
 int _tmain(int argc, _TCHAR* argv[])
 try
 {
-	cout << "Please, enter three numbers for triangle sides." << endl;
-	double side1, side2, side3;
-	cin >> side1 >> side2 >> side3;
-	CTriangle triangle(side1, side2, side3);
-	cout << "Given triangle perimeter is " << triangle.GetPerimeter() << endl;
-	cout << "And his area is " << triangle.GetArea() << endl;
+	string again = "y";
+	while (again == "y")
+	{
+		cout << "Please, enter three numbers for triangle sides." << endl;
+		double side1, side2, side3;
+		cin >> side1 >> side2 >> side3;
+		CTriangle triangle(side1, side2, side3);
+		cout << "Given triangle perimeter is " << triangle.GetPerimeter() << endl;
+		cout << "And his area is " << triangle.GetArea() << endl;
+		cout << "Want to try another triangle? (press 'y' to continue)" << endl;
+		cin >> again;
+	}
 }
 catch (exception const & e)
 {
