@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "FindMaxFunc.h"
 
 template<typename T>
 bool FindMax(std::vector<T> const & arr, T & maxValue)
@@ -31,4 +30,3 @@ inline bool FindMax<const char*>(std::vector<const char*>const & arr, const char
 	maxCharStringValue = newMax;
 	return true;
 }
-

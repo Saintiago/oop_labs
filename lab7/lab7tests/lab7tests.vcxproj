@@ -154,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\lab7\FindMaxFunc.cpp" />
+    <ClCompile Include="FindMaxExTests.cpp" />
     <ClCompile Include="FindMaxTests.cpp" />
     <ClCompile Include="lab7tests.cpp" />
     <ClCompile Include="stdafx.cpp">

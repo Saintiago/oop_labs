@@ -13,11 +13,12 @@ struct FindMax_
 	double maxDoubleValue;
 	std::string maxStringValue;
 	const char* maxCharStringValue;
+
 	FindMax_()
 	{
 	}
 };
-// Функци FindMax
+// Функция FindMax
 BOOST_FIXTURE_TEST_SUITE(FindMaxFunction, FindMax_)
 
 	// возвращает true если найден максимум и false ели массив пустой
@@ -55,4 +56,3 @@ BOOST_FIXTURE_TEST_SUITE(FindMaxFunction, FindMax_)
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
-
