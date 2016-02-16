@@ -1,125 +1,113 @@
 #pragma once
 #include "ArrayItem.h"
 
+using namespace std;
+
 template<typename T>
 class CMyArray
 {
-	typedef std::shared_ptr<ArrayItem<T>> ItemPtr;
+	typedef shared_ptr<ArrayItem<T>> ItemPtr;
 
 public:
-	CMyArray() {}
+	CMyArray(size_t initialSize = 1) 
+	{
+		m_head = make_unique<T[]>(initialSize);
+		RecalcTail(initialSize);
+	}
 	~CMyArray()	{}
 
 	void AppendItem(T data = T())
 	{
-		ItemPtr newItemPtr = std::make_shared<ArrayItem<T>>(ArrayItem<T> (data));
-		if (m_head == nullptr)
-		{
-			m_head = newItemPtr;
-		}
-		else
-		{
-			GetTail()->SetNext(newItemPtr);
-		}
+		size_t oldSize = Size();
+		size_t newSize = oldSize + 1;
+		Resize(newSize);
+		m_head[oldSize] = data;
 	}
 
-	size_t Size()
+	size_t Size() const
 	{
-		unsigned count = 0;
-		if (m_head != nullptr)
-		{
-			ItemPtr current = m_head;
-			do
-			{
-				count++;
-				current = current->GetNext();
-			} 
-			while (current != nullptr);
-		}
-		return count;
+		return m_tail - m_head.get();
 	}
 
 	void Resize(size_t newSize)
 	{
-		size_t currentSize = Size();
-		if (newSize > currentSize)
+		size_t oldSize = Size();
+		if (newSize > oldSize)
 		{
-			for (size_t i = currentSize; i < newSize; i++)
+			auto resizedArray = make_unique<T[]>(newSize);
+			for (size_t i = 0; i < oldSize; i++)
 			{
-				AppendItem();
+				resizedArray[i] = m_head[i];
 			}
+			m_head.swap(resizedArray);
 		}
-		else if (newSize < currentSize)
+		else if (newSize < oldSize)
 		{
 			Shrink(newSize);
 		}
+		RecalcTail(newSize);
 	}
 
 	void Clear()
 	{
-		Dispose(m_head);
+		Shrink(0);
 	}
 
 	const T & operator[](size_t index)const
 	{
-		return GetNthItem(index)->GetData();
+		if (index >= Size())
+		{
+			ThrowOutOfRange(index);
+		}
+		return m_head[index];
 	}
 
 	T & operator[](size_t index)
 	{
-		return GetNthItem(index)->GetData();
+		if (index >= Size())
+		{
+			ThrowOutOfRange(index);
+		}
+		return m_head[index];
+	}
+
+	CMyArray & operator = (CMyArray const& other)
+	{
+		size_t size = other.Size();
+		auto copy = make_unique<T[]>(size);
+		for (size_t i = 0; i < size; i++)
+		{
+			copy[i] = other[i];
+		}
+		m_head.swap(copy);
+		RecalcTail(size);
+		return *this;
 	}
 
 private:
-	ItemPtr m_head = nullptr;
-
-	ItemPtr GetNthItem(size_t n)
-	{
-		ItemPtr current = m_head;
-
-		if (current == nullptr)
-		{
-			ThrowOutOfRange(n);
-		}
-
-		for (size_t i = n; i > 0; i--)
-		{
-			if (current->GetNext() == nullptr)
-			{
-				ThrowOutOfRange(n);
-			}
-			current = current->GetNext();
-		}
-		return current;
-	}
-
-	ItemPtr GetTail()
-	{
-		size_t lastIndex = Size();
-		if (lastIndex > 0) lastIndex--;
-		return GetNthItem(lastIndex);
-	}
+	unique_ptr<T[]> m_head;
+	T *m_tail;
 
 	void Shrink(size_t newSize)
 	{
 		if (newSize > 0) newSize--;
-		Dispose(GetNthItem(newSize));
-	}
-
-	void Dispose(ItemPtr & item)
-	{
-		if (item->GetNext() != nullptr)
+		for (int i = newSize; i >= 0; i--)
 		{
-			Dispose(item->GetNext());
+			m_head[i].~T();
 		}
-		item.reset();
+		RecalcTail(newSize);
 	}
 
-	void ThrowOutOfRange(size_t pos)
+	void RecalcTail(size_t newSize)
 	{
-		std::stringstream ss;
+		m_tail = &m_head[newSize];
+	}
+
+	void ThrowOutOfRange(size_t pos) const
+	{
+		stringstream ss;
 		ss << "There is no " << pos << "th element in this array!";
-		throw std::out_of_range(ss.str());
+		throw out_of_range(ss.str());
 	}
 };
 
