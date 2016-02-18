@@ -17,15 +17,14 @@ int main(int argc, char* argv[])
 		{
 			dictionaryFile = argv[1];
 			ifstream fin(dictionaryFile);
-			if (!fin.is_open())
+			if (fin.is_open())
 			{
-				throw exception("Cannot open file.");
+				cout << "Getting dictionary from " << argv[1] << "..." << endl;
+				dictionary.LoadDictionary(fin);
+				fin.close();
+				newWordsAdded = false;
+				cout << "Dictionary loaded. ";
 			}
-			cout << "Getting dictionary from " << argv[1] << "..." << endl;
-			dictionary.LoadDictionary(fin);
-			fin.close();
-			newWordsAdded = false;
-			cout << "Dictionary loaded. ";
 		}
 
 		cout << "Enter word for translation." << endl;

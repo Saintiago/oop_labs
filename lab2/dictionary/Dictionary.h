@@ -16,7 +16,6 @@ public:
 private:
 	std::map<std::string, std::string> m_enRu = {};
 
-	void FillDictionary(std::istream & is);
 	std::string ToLower(const std::string & str) const;
 };
 

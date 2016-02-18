@@ -12,17 +12,6 @@ CDictionary::~CDictionary()
 {
 }
 
-void CDictionary::FillDictionary(std::istream & is)
-{
-	string ruWord, enWord;
-	while (!is.eof())
-	{
-		getline(is, enWord);
-		getline(is, ruWord);
-		AddWord(enWord, ruWord);
-	}
-}
-
 size_t CDictionary::GetWordsCount() const
 {
 	return m_enRu.size();
@@ -30,7 +19,7 @@ size_t CDictionary::GetWordsCount() const
 
 void CDictionary::AddWord(const std::string & enWord, const std::string & ruWord)
 {
-	m_enRu.insert({ ToLower(enWord), ToLower(ruWord) });
+	m_enRu.insert({ ToLower(enWord), ruWord });
 }
 
 void CDictionary::SaveDictionary(std::ostream & out) const
@@ -49,7 +38,13 @@ void CDictionary::SaveDictionary(std::ostream & out) const
 
 void CDictionary::LoadDictionary(istream & is)
 {
-	FillDictionary(is);
+	string ruWord, enWord;
+	while (!is.eof())
+	{
+		getline(is, enWord);
+		getline(is, ruWord);
+		AddWord(enWord, ruWord);
+	}
 }
 
 string CDictionary::Translate(const string & source) const
