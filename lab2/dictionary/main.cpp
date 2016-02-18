@@ -6,6 +6,10 @@
 
 using namespace std;
 
+void workWithDictionary(CDictionary & dictionary, string & userInput, bool & newWordsAdded);
+void initDictionary(CDictionary & dictionary, string & dictionaryFile, bool & newWordsAdded);
+void saveDictionary(CDictionary & dictionary, string & dictionaryFile);
+
 int main(int argc, char* argv[])
 {
 	try
@@ -16,15 +20,7 @@ int main(int argc, char* argv[])
 		if (argc == 2)
 		{
 			dictionaryFile = argv[1];
-			ifstream fin(dictionaryFile);
-			if (fin.is_open())
-			{
-				cout << "Getting dictionary from " << argv[1] << "..." << endl;
-				dictionary.LoadDictionary(fin);
-				fin.close();
-				newWordsAdded = false;
-				cout << "Dictionary loaded. ";
-			}
+			initDictionary(dictionary, dictionaryFile, newWordsAdded);
 		}
 
 		cout << "Enter word for translation." << endl;
@@ -37,44 +33,13 @@ int main(int argc, char* argv[])
 			{
 				continue;
 			}
-
-			if (dictionary.IsWordPresent(userInput))
-			{
-				cout << dictionary.Translate(userInput) << endl;
-			}
-			else
-			{
-				string translation;
-				cout << "New word! Enter translation:" << endl;
-				getline(cin, translation);
-				if (translation.length() > 0)
-				{
-					dictionary.AddWord(userInput, translation);
-					cout << "\"" << userInput << "\"" << " saved as \"" << translation << "\"." << endl;
-					newWordsAdded = true;
-				}
-				else
-				{
-					cout << "Ignoring " << "\"" << userInput << "\"." << endl;
-				}
-			}
+			workWithDictionary(dictionary, userInput, newWordsAdded);
 		} 
 		while (userInput != "...");
 
 		if (newWordsAdded)
 		{
-			cout << "Save dictionary?" << endl;
-			cin >> userInput;
-
-			if (userInput == "y")
-			{
-				ofstream fout(dictionaryFile);
-				if (!fout.is_open())
-				{
-					throw exception("Cannot open file.");
-				}
-				dictionary.SaveDictionary(fout);
-			}
+			saveDictionary(dictionary, dictionaryFile);
 		}
 	}
 	catch (exception & e)
@@ -84,4 +49,58 @@ int main(int argc, char* argv[])
 	}
 
 	return 0;
+}
+
+void workWithDictionary(CDictionary & dictionary, string & userInput, bool & newWordsAdded)
+{
+	if (dictionary.IsWordPresent(userInput))
+	{
+		cout << dictionary.Translate(userInput) << endl;
+	}
+	else
+	{
+		string translation;
+		cout << "New word! Enter translation:" << endl;
+		getline(cin, translation);
+		if (translation.length() > 0)
+		{
+			dictionary.AddWord(userInput, translation);
+			cout << "\"" << userInput << "\"" << " saved as \"" << translation << "\"." << endl;
+			newWordsAdded = true;
+		}
+		else
+		{
+			cout << "Ignoring " << "\"" << userInput << "\"." << endl;
+		}
+	}
+}
+
+void initDictionary(CDictionary & dictionary, string & dictionaryFile, bool & newWordsAdded)
+{
+	ifstream fin(dictionaryFile);
+	if (fin.is_open())
+	{
+		cout << "Getting dictionary from " << dictionaryFile << "..." << endl;
+		dictionary.LoadDictionary(fin);
+		fin.close();
+		newWordsAdded = false;
+		cout << "Dictionary loaded. ";
+	}
+}
+
+void saveDictionary(CDictionary & dictionary, string & dictionaryFile)
+{
+	string userInput;
+	cout << "Save dictionary?" << endl;
+	cin >> userInput;
+
+	if (userInput == "y")
+	{
+		ofstream fout(dictionaryFile);
+		if (!fout.is_open())
+		{
+			throw exception("Cannot open file.");
+		}
+		dictionary.SaveDictionary(fout);
+	}
 }

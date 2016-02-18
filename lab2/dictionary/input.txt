@@ -1,11 +1,11 @@
-
-
 cat
 кошка
 dog
 собака
 fish
 рыбка
+mouse
+Мышак
 rat
 крыса
 serpent
