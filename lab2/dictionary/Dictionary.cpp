@@ -39,7 +39,7 @@ void CDictionary::SaveDictionary(std::ostream & out) const
 void CDictionary::LoadDictionary(istream & is)
 {
 	string ruWord, enWord;
-	while (!is.eof())
+	while (!is.eof() && !is.fail())
 	{
 		getline(is, enWord);
 		getline(is, ruWord);
