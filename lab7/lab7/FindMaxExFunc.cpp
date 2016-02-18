@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+using namespace std;
+
 struct Athlete
 {
 	std::string name;
@@ -15,14 +17,14 @@ bool operator == (Athlete const & athleteL, Athlete const & athleteR)
 }
 
 template<typename T, typename Less>
-bool FindMaxEx(std::vector<T> const & arr, T & maxValue, Less const & less)
+bool FindMaxEx(std::vector<T> & arr, T & maxValue, Less const & less = less<T>)
 {
 	if (arr.size() == 0)
 	{
 		return false;
 	}
 
-	T newMax = arr.at(0);
+	T & newMax (arr.at(0));
 	for (auto & item : arr)
 	{
 		if (less(newMax, item))
