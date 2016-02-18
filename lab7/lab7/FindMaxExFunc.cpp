@@ -16,23 +16,23 @@ bool operator == (Athlete const & athleteL, Athlete const & athleteR)
 		&& (athleteL.weight == athleteR.weight);
 }
 
-template<typename T, typename Less>
-bool FindMaxEx(std::vector<T> & arr, T & maxValue, Less const & less = less<T>)
+template<typename T, typename Less = less<T>>
+bool FindMaxEx(std::vector<T> & arr, T & maxValue, Less const & less = less<T>())
 {
 	if (arr.size() == 0)
 	{
 		return false;
 	}
 
-	T & newMax (arr.at(0));
+	T * newMax = &arr.at(0);
 	for (auto & item : arr)
 	{
-		if (less(newMax, item))
+		if (less(*newMax, item))
 		{
-			newMax = item;
+			newMax = &item;
 		}
 	}
-	maxValue = newMax;
+	maxValue = *newMax;
 	return true;
 }
 
