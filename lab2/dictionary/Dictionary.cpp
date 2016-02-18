@@ -23,20 +23,20 @@ void CDictionary::FillDictionary(std::istream & is)
 	}
 }
 
-size_t CDictionary::GetWordsCount()
+size_t CDictionary::GetWordsCount() const
 {
-	return enRu.size();
+	return m_enRu.size();
 }
 
-void CDictionary::AddWord(std::string enWord, std::string ruWord)
+void CDictionary::AddWord(const std::string & enWord, const std::string & ruWord)
 {
-	enRu.insert({ enWord, ruWord });
+	m_enRu.insert({ ToLower(enWord), ToLower(ruWord) });
 }
 
-void CDictionary::saveDictionary(std::ostream & out)
+void CDictionary::SaveDictionary(std::ostream & out) const
 {
 	bool first = true;
-	for (auto & word : enRu)
+	for (auto & word : m_enRu)
 	{
 		if (!first)
 		{
@@ -47,17 +47,24 @@ void CDictionary::saveDictionary(std::ostream & out)
 	}
 }
 
-void CDictionary::loadDictionary(istream & is)
+void CDictionary::LoadDictionary(istream & is)
 {
 	FillDictionary(is);
 }
 
-string CDictionary::translate(string source)
+string CDictionary::Translate(const string & source) const
 {
-	return enRu[source];
+	return m_enRu.at(ToLower(source));
 }
 
-bool CDictionary::IsWordPresent(std::string word)
+bool CDictionary::IsWordPresent(const string & word) const
 {
-	return (enRu.find(word) != enRu.end());
+	return (m_enRu.find(ToLower(word)) != m_enRu.end());
+}
+
+string CDictionary::ToLower(const string & str) const
+{
+	string tmpStr = str;
+	transform(tmpStr.begin(), tmpStr.end(), tmpStr.begin(), ::tolower);;
+	return tmpStr;
 }

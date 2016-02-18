@@ -22,7 +22,7 @@ void ProcessVector(std::vector<double> & numbers)
 		[positiveAverage](double & number) { return number += positiveAverage; });
 }
 
-std::string GetVectorItems(const std::vector<double> & numbers)
+std::string ConvertVectorToString(const std::vector<double> & numbers)
 {
 	std::ostringstream oss;
 	std::copy(numbers.begin(), numbers.end(), std::ostream_iterator<double>(oss, " "));
@@ -33,6 +33,12 @@ double GetPositiveAverage(std::vector<double> numbers)
 {
 	double positiveTotal = 0;
 	auto positiveCount = std::count_if(numbers.begin(), numbers.end(), [](double number) { return number > 0; });
+
+	if (positiveCount == 0)
+	{
+		return 0;
+	}
+
 	std::for_each(numbers.begin(), numbers.end(), [&positiveTotal](double number)
 	{
 		if (number > 0)

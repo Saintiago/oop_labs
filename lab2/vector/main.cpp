@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 	getline(cin, vectorStr);
 	vector<double> numbers = ReadVector(vectorStr);
 	ProcessVector(numbers);
-	cout << GetVectorItems(numbers);
+	cout << ConvertVectorToString(numbers);
 	
 	return 0;
 }

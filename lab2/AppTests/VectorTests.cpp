@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_SUITE(Vector)
 	BOOST_AUTO_TEST_CASE(can_convert_its_items_to_string)
 	{
 		std::vector<double> inputVector = { 1.2, 2.8, -5 };
-		BOOST_CHECK_EQUAL(GetVectorItems(inputVector), "1.2 2.8 -5 ");
+		BOOST_CHECK_EQUAL(ConvertVectorToString(inputVector), "1.2 2.8 -5 ");
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

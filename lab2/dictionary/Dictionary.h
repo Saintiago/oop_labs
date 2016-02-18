@@ -6,16 +6,17 @@ public:
 	CDictionary();
 	~CDictionary();
 
-	size_t GetWordsCount();
-	void AddWord(std::string enWord, std::string ruWord);
-	void loadDictionary(std::istream & is);
-	void saveDictionary(std::ostream & out);
-	std::string translate(std::string source);
-	bool IsWordPresent(std::string word);
+	size_t GetWordsCount() const;
+	void AddWord(const std::string & enWord, const std::string & ruWord);
+	void LoadDictionary(std::istream & is);
+	void SaveDictionary(std::ostream & out) const;
+	std::string Translate(const std::string & source) const;
+	bool IsWordPresent(const std::string & word) const;
 
 private:
-	std::map<std::string, std::string> enRu = {};
+	std::map<std::string, std::string> m_enRu = {};
 
 	void FillDictionary(std::istream & is);
+	std::string ToLower(const std::string & str) const;
 };
 

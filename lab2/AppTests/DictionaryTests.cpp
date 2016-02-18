@@ -11,7 +11,7 @@ struct Dictionary_
 	Dictionary_()
 	{
 		ss << "cat" << endl << "кошка" << endl << "dog" << endl << "собака";
-		dictionary.loadDictionary(ss);
+		dictionary.LoadDictionary(ss);
 	}
 };
 
@@ -30,7 +30,7 @@ BOOST_FIXTURE_TEST_SUITE(Dictionary, Dictionary_)
 		CDictionary dict;
 		stringstream ss2;
 		ss2 << "cat" << endl << "кошка" << endl << "dog" << endl << "собака";
-		dict.loadDictionary(ss2);
+		dict.LoadDictionary(ss2);
 		BOOST_CHECK_EQUAL(dict.GetWordsCount(), 2);
 	}
 
@@ -39,7 +39,7 @@ BOOST_FIXTURE_TEST_SUITE(Dictionary, Dictionary_)
 	{
 		string expectedString = "cat\nкошка\ndog\nсобака";
 		stringstream output;
-		dictionary.saveDictionary(output);
+		dictionary.SaveDictionary(output);
 		BOOST_CHECK_EQUAL(output.str(), expectedString);
 	}
 
@@ -48,7 +48,7 @@ BOOST_FIXTURE_TEST_SUITE(Dictionary, Dictionary_)
 	{
 		string inputWord = "cat";
 		string expectedOutput = "кошка";
-		BOOST_CHECK_EQUAL(dictionary.translate(inputWord), expectedOutput);
+		BOOST_CHECK_EQUAL(dictionary.Translate(inputWord), expectedOutput);
 	}
 
 	// Может проверить существует ли слово в словаре
@@ -56,6 +56,14 @@ BOOST_FIXTURE_TEST_SUITE(Dictionary, Dictionary_)
 	{
 		BOOST_CHECK(dictionary.IsWordPresent("dog"));
 		BOOST_CHECK(!dictionary.IsWordPresent("fish"));
+	}
+
+	// Может перевести слово независимо от регистра
+	BOOST_AUTO_TEST_CASE(can_translate_word_case_independent)
+	{
+		string inputWord = "CAt";
+		string expectedOutput = "кошка";
+		BOOST_CHECK_EQUAL(dictionary.Translate(inputWord), expectedOutput);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

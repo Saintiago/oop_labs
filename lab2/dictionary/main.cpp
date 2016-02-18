@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 				throw exception("Cannot open file.");
 			}
 			cout << "Getting dictionary from " << argv[1] << "..." << endl;
-			dictionary.loadDictionary(fin);
+			dictionary.LoadDictionary(fin);
 			fin.close();
 			newWordsAdded = false;
 			cout << "Dictionary loaded. ";
@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 
 			if (dictionary.IsWordPresent(userInput))
 			{
-				cout << dictionary.translate(userInput) << endl;
+				cout << dictionary.Translate(userInput) << endl;
 			}
 			else
 			{
@@ -62,19 +62,20 @@ int main(int argc, char* argv[])
 		} 
 		while (userInput != "...");
 
-		
-
-		cout << "Save dictionary?" << endl;
-		cin >> userInput;
-
-		if (userInput == "y")
+		if (newWordsAdded)
 		{
-			ofstream fout(dictionaryFile);
-			if (!fout.is_open())
+			cout << "Save dictionary?" << endl;
+			cin >> userInput;
+
+			if (userInput == "y")
 			{
-				throw exception("Cannot open file.");
+				ofstream fout(dictionaryFile);
+				if (!fout.is_open())
+				{
+					throw exception("Cannot open file.");
+				}
+				dictionary.SaveDictionary(fout);
 			}
-			dictionary.saveDictionary(fout);
 		}
 	}
 	catch (exception & e)
